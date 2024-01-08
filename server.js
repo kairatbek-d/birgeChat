@@ -16,18 +16,14 @@ app.use(cors(corsOptions));
 app.use(cookieParser())
 app.options('*', cors(corsOptions)); // include before other routes
 
-app.get('/', (req, res) => {
-    res.json({msg: "Hello"})
-})
+// Routes
+app.use('/api', require('./routes/authRouter'))
 
 const URI = process.env.MONGODB_URL
-mongoose.connect(URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('MongoDB Connected'))
+mongoose.connect(URI).then(() => console.log('MongoDB Connected'))
 .catch(err => console.error('Could not connect to MongoDB...', err));
 
-const port = process.env.PORT || 5001
+const port = process.env.PORT || 5000
 app.listen(port, () => {
     console.log('Server is running on port', port)
 })
