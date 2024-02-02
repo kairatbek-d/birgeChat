@@ -20,7 +20,7 @@
     position: relative;
 }
 
-.auth_page form small {
+.auth_page form .pass small {
     position: absolute;
     top: 50%;
     right: 5px;
