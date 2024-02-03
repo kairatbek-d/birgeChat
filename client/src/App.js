@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Home from './pages/home';
 import { useEffect } from 'react';
 import { refreshToken } from './redux/actions/authAction';
+import Header from './components/Header';
 
 function App() {
     const auth = useSelector(state => state.auth)
@@ -24,6 +25,7 @@ function App() {
             <input type="checkbox" id="theme" />
             <div className="App">
                 <div className="main">
+                    {auth.token && <Header />}
                     <Routes>
                         <Route path="/" element={auth.token ? <Home /> : <Login />} />
                         <Route path="/:page" element={<PageRender />} />
