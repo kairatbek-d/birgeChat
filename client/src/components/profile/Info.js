@@ -5,6 +5,8 @@ import Avatar from '../Avatar'
 import { getProfileUsers } from '../../redux/actions/profileAction'
 import EditProfile from './EditProfile'
 import FollowBtn from '../FollowBtn'
+import Followers from './Followers'
+import Following from './Following'
 
 const Info = () => {
     const { id } = useParams()
@@ -15,19 +17,25 @@ const Info = () => {
     const [userData, setUserData] = useState([])
     const [onEdit, setOnEdit] = useState(false)
 
+    const [showFollowers, setShowFollowers] = useState(false)
+    const [showFollowing, setShowFollowing] = useState(false)
+
     useEffect(() => {
         if(id === auth.user._id) {
             setUserData([auth.user])
         } else {
             dispatch(getProfileUsers({users: profile.users, id, auth}))
             const newData = profile.users.filter(user => user._id === id)
-            setUserData(newData)
+            const uniqueNewData = newData.filter((user, index, self) =>
+                index === self.findIndex((t) => t._id === user._id)
+            );
+            setUserData(uniqueNewData)
         }
 
     }, [id, auth, dispatch, profile.users])
 
     return (
-        <>
+        <div className="info">
             {
                 userData.map(user => (
                     <div className="info_container" key={user._id}>
@@ -42,15 +50,15 @@ const Info = () => {
                                     onClick={() => setOnEdit(true)}>
                                         Edit Profile
                                     </button>
-                                    : <FollowBtn />
+                                    : <FollowBtn user={user} />
                                 }
                             </div>
 
                             <div className="follow_btn">
-                                <span className="mr-4">
+                                <span className="mr-4" onClick={() => setShowFollowers(true)}>
                                     {user.followers.length} Followers
                                 </span>
-                                <span>
+                                <span className="ml-4" onClick={() => setShowFollowing(true)}>
                                     {user.following.length} Following
                                 </span>
                             </div>
@@ -66,11 +74,25 @@ const Info = () => {
                             {
                                 onEdit && <EditProfile setOnEdit={setOnEdit} />
                             }
+                            {
+                                showFollowers &&
+                                <Followers
+                                users={user.followers}
+                                setShowFollowers={setShowFollowers}
+                                />
+                            }
+                            {
+                                showFollowing &&
+                                <Following
+                                users={user.following}
+                                setShowFollowing={setShowFollowing}
+                                />
+                            }
                         </div>
                     </div>
                 ))
             }
-        </>
+        </div>
     )
 }
 
