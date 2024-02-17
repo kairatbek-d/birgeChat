@@ -11,14 +11,21 @@ import PageRender from './customRouter/PageRender';
 import Register from './pages/register';
 import PrivateRouter from './customRouter/PrivateRouter';
 import Header from './components/header/Header';
+import StatusModal from './components/StatusModal';
+import { getPosts } from './redux/actions/postAction';
 
 function App() {
     const auth = useSelector(state => state.auth)
+    const status = useSelector(state => state.status)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(refreshToken())
     }, [dispatch])
+
+    useEffect(() => {
+        if(auth.token) dispatch(getPosts(auth.token))
+    }, [dispatch, auth.token])
 
     return (
         <Router>
@@ -28,6 +35,7 @@ function App() {
             <div className="App">
                 <div className="main">
                     {auth.token && <Header />}
+                    {status && <StatusModal />}
                     <Routes>
                         <Route path="/" element={auth.token ? <Home /> : <Login />} />
                         <Route path="/register" element={<Register />} />
