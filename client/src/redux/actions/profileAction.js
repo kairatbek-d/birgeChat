@@ -69,7 +69,6 @@ export const updateProfileUser = ({userData, avatar, auth}) => async (dispatch) 
 }
 
 export const follow = ({users, user, auth}) => async (dispatch) => {
-    console.log(user)
     let newUser;
     if(users.every(item => item._id !== user._id)) {
         newUser = {...user, followers: [...user.followers, auth.user]}
