@@ -20,6 +20,7 @@ app.options('*', cors(corsOptions)); // include before other routes
 app.use('/api', require('./routes/authRouter'))
 app.use('/api', require('./routes/userRouter'))
 app.use('/api', require('./routes/postRouter'))
+app.use('/api', require('./routes/commentRouter'))
 
 const URI = process.env.MONGODB_URL
 mongoose.connect(URI).then(() => console.log('MongoDB Connected'))
