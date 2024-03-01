@@ -70,13 +70,13 @@ const postCtrl = {
             const post = await Posts.findOneAndUpdate({_id: req.params.id}, {
                 content, images
             }).populate("user likes", "avatar username fullname")
-            // .populate({
-            //     path: "comments",
-            //     populate: {
-            //         path: "user likes",
-            //         select: "-password"
-            //     }
-            // })
+            .populate({
+                path: "comments",
+                populate: {
+                    path: "user likes",
+                    select: "-password"
+                }
+            })
 
             res.json({
                 msg: "Updated Post!",
@@ -116,6 +116,44 @@ const postCtrl = {
             if(!like) return res.status(400).json({msg: 'This post does not exist.'})
 
             res.json({msg: 'UnLiked Post!'})
+
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    getUserPosts: async (req, res) => {
+        try {
+            // const features = new APIfeatures(Posts.find({user: req.params.id}), req.query)
+            // .paginating()
+            // const posts = await features.query.sort("-createdAt")
+            const posts = await Posts.find({user: req.params.id}).sort("-createdAt")
+
+            res.json({
+                posts,
+                result: posts.length
+            })
+
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    getPost: async (req, res) => {
+        try {
+            const post = await Posts.findById(req.params.id)
+            .populate("user likes", "avatar username fullname followers")
+            .populate({
+                path: "comments",
+                populate: {
+                    path: "user likes",
+                    select: "-password"
+                }
+            })
+
+            if(!post) return res.status(400).json({msg: 'This post does not exist.'})
+
+            res.json({
+                post
+            })
 
         } catch (err) {
             return res.status(500).json({msg: err.message})
