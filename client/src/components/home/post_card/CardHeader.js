@@ -1,24 +1,31 @@
 import React from 'react'
 import Avatar from '../../Avatar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
+import { deletePost } from '../../../redux/actions/postAction'
+import { BASE_URL } from '../../../utils/config'
 
 const CardHeader = ({post}) => {
     const auth = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
+    const navigate = useNavigate()
+
     const handleEditPost = () => {
         dispatch({ type: GLOBALTYPES.STATUS, payload: {...post, onEdit: true} })
     }
 
-    const handleDeletePost = e => {
-        e.preventDefault()
+    const handleDeletePost = () => {
+        if(window.confirm("Are you sure want to delete this post?")){
+            dispatch(deletePost({post, auth}))
+            navigate("/")
+        }
     }
 
-    const handleCopyLink = e => {
-        e.preventDefault()
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
     }
     return (
         <div className="card_header">
