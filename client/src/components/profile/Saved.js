@@ -36,7 +36,7 @@ const Saved = ({auth, dispatch}) => {
     }
 
     return (
-        <div>
+        <>
             <PostThumb posts={savePosts} result={result} />
 
             {
@@ -47,7 +47,7 @@ const Saved = ({auth, dispatch}) => {
             <LoadMoreBtn result={result} page={page}
             load={load} handleLoadMore={handleLoadMore} />
             
-        </div>
+        </>
     )
 }
 

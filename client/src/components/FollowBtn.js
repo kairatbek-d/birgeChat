@@ -7,6 +7,7 @@ const FollowBtn = ({user}) => {
 
     const auth = useSelector(state => state.auth)
     const profile = useSelector(state => state.profile)
+    const socket = useSelector(state => state.socket.socket)
     const dispatch = useDispatch()
 
     const [load, setLoad] = useState(false)
@@ -15,6 +16,7 @@ const FollowBtn = ({user}) => {
         if(auth.user.following.find(item => item._id === user._id)){
             setFollowed(true)
         }
+        return () => setFollowed(false)
     }, [auth.user.following, user._id])
 
     const handleFollow = async () => {
@@ -22,7 +24,7 @@ const FollowBtn = ({user}) => {
 
         setFollowed(true)
         setLoad(true)
-        await dispatch(follow({users: profile.users, user, auth}))
+        await dispatch(follow({users: profile.users, user, auth, socket}))
         setLoad(false)
     }
 
@@ -31,7 +33,7 @@ const FollowBtn = ({user}) => {
 
         setFollowed(false)
         setLoad(true)
-        await dispatch(unfollow({users: profile.users, user, auth}))
+        await dispatch(unfollow({users: profile.users, user, auth, socket}))
         setLoad(false)
     }
 

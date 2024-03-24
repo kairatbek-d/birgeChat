@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Avatar from '../Avatar'
-import EditProfile from './EditProfile'
 import FollowBtn from '../FollowBtn'
-import Followers from './Followers'
-import Following from './Following'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 
-const Info = ({id, auth, profile, dispatch}) => {
+const Info = ({
+    id, auth, profile, dispatch,
+    onEdit, setOnEdit, showFollowers, setShowFollowers, showFollowing, setShowFollowing}) => {
     
     const [userData, setUserData] = useState([])
-    const [onEdit, setOnEdit] = useState(false)
-
-    const [showFollowers, setShowFollowers] = useState(false)
-    const [showFollowing, setShowFollowing] = useState(false)
 
     useEffect(() => {
         if(id === auth.user._id) {
@@ -68,24 +63,7 @@ const Info = ({id, auth, profile, dispatch}) => {
                                 {user.website}
                             </a>
                             <p>{user.story}</p>
-                        
-                            {
-                                onEdit && <EditProfile setOnEdit={setOnEdit} />
-                            }
-                            {
-                                showFollowers &&
-                                <Followers
-                                users={user.followers}
-                                setShowFollowers={setShowFollowers}
-                                />
-                            }
-                            {
-                                showFollowing &&
-                                <Following
-                                users={user.following}
-                                setShowFollowing={setShowFollowing}
-                                />
-                            }
+
                         </div>
                     </div>
                 ))

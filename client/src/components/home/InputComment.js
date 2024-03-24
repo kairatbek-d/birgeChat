@@ -7,6 +7,7 @@ const InputComment = ({children, post, onReply, setOnReply}) => {
 
     const auth = useSelector(state => state.auth)
     const theme = useSelector(state => state.theme)
+    const socket = useSelector(state => state.socket.socket)
     const dispatch = useDispatch()
 
     const handleSubmit = (e) => {
@@ -27,7 +28,7 @@ const InputComment = ({children, post, onReply, setOnReply}) => {
             tag: onReply && onReply.user
         }
         
-        dispatch(createComment({post, newComment, auth}))
+        dispatch(createComment({post, newComment, auth, socket}))
 
         if(setOnReply) return setOnReply(false);
     }

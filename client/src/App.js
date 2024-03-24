@@ -14,6 +14,10 @@ import Header from './components/header/Header';
 import StatusModal from './components/StatusModal';
 import { getPosts } from './redux/actions/postAction';
 
+import SocketClient from './SocketClient';
+import { setSocket } from './redux/reducers/socketSlice';
+import io from "socket.io-client";
+
 function App() {
     const auth = useSelector(state => state.auth)
     const status = useSelector(state => state.status)
@@ -22,6 +26,13 @@ function App() {
 
     useEffect(() => {
         dispatch(refreshToken())
+
+        const socket = io('http://localhost:5000');
+        dispatch(setSocket(socket)); // Store the socket instance in Redux
+
+        return () => {
+            socket.disconnect(); // Clean up on component unmount
+        };
     }, [dispatch])
 
     useEffect(() => {
@@ -37,6 +48,7 @@ function App() {
                 <div className="main">
                     {auth.token && <Header />}
                     {status && <StatusModal />}
+                    {auth.token && <SocketClient />}
                     <Routes>
                         <Route path="/" element={auth.token ? <Home /> : <Login />} />
                         <Route path="/register" element={<Register />} />

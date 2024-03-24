@@ -6,7 +6,12 @@ import rootReducer from './reducers/index';
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: {
+    // Ignore these action types
+    ignoredActions: ['socket/setSocket'],
+    // Or you can ignore checking for specific paths in the state
+    ignoredPaths: ['socket.socket'],
+  },}).concat(thunk),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
