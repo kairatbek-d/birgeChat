@@ -17,6 +17,8 @@ import { getPosts } from './redux/actions/postAction';
 import SocketClient from './SocketClient';
 import { setSocket } from './redux/reducers/socketSlice';
 import io from "socket.io-client";
+import { getSuggestions } from './redux/actions/suggestionsAction';
+import { getNotifies } from './redux/actions/notifyAction';
 
 function App() {
     const auth = useSelector(state => state.auth)
@@ -36,8 +38,24 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        if(auth.token) dispatch(getPosts(auth.token))
+        if(auth.token) {
+            dispatch(getPosts(auth.token))
+            dispatch(getSuggestions(auth.token))
+            dispatch(getNotifies(auth.token))
+        }
     }, [dispatch, auth.token])
+
+    useEffect(() => {
+        if (!("Notification" in window)) {
+          alert("This browser does not support desktop notification");
+        }
+        else if (Notification.permission === "granted") {}
+        else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {}
+          });
+        }
+      },[])
 
     return (
         <Router>

@@ -7,6 +7,7 @@ const StatusModal = () => {
     const auth = useSelector(state => state.auth)
     const theme = useSelector(state => state.theme)
     const status = useSelector(state => state.status)
+    const socket = useSelector(state => state.socket.socket)
     const dispatch = useDispatch()
 
     const [content, setContent] = useState('')
@@ -84,7 +85,7 @@ const StatusModal = () => {
         if(status.onEdit) {
             dispatch(updatePost({content, images, auth, status}))
         } else {
-            dispatch(createPost({content, images, auth}))
+            dispatch(createPost({content, images, auth, socket}))
         }
 
         setContent('')

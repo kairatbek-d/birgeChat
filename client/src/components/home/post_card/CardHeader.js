@@ -9,6 +9,7 @@ import { BASE_URL } from '../../../utils/config'
 
 const CardHeader = ({post}) => {
     const auth = useSelector(state => state.auth)
+    const socket = useSelector(state => state.socket.socket)
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
@@ -19,7 +20,7 @@ const CardHeader = ({post}) => {
 
     const handleDeletePost = () => {
         if(window.confirm("Are you sure want to delete this post?")){
-            dispatch(deletePost({post, auth}))
+            dispatch(deletePost({post, auth, socket}))
             navigate("/")
         }
     }
