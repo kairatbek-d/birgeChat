@@ -2,7 +2,7 @@
 
 BirgeChat is a full-stack social media application inspired by Instagram, built with the MERN stack (MongoDB, Express.js, React, Node.js). It features user authentication, real-time chats, post creation and deletion, likes, comments, and much more.
 
-![BirgeChat Screenshot](./Screenshot 2024-03-31 at 06.46.32.png)
+![BirgeChat Screenshot](./BirgeChat.png)
 
 ## Features
 
