@@ -7,7 +7,7 @@ const InputComment = ({children, post, onReply, setOnReply}) => {
 
     const auth = useSelector(state => state.auth)
     const theme = useSelector(state => state.theme)
-    const socket = useSelector(state => state.socket.socket)
+    const socket = useSelector(state => state.communication.socket)
     const dispatch = useDispatch()
 
     const handleSubmit = (e) => {

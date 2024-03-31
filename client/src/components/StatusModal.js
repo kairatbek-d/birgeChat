@@ -7,7 +7,7 @@ const StatusModal = () => {
     const auth = useSelector(state => state.auth)
     const theme = useSelector(state => state.theme)
     const status = useSelector(state => state.status)
-    const socket = useSelector(state => state.socket.socket)
+    const socket = useSelector(state => state.communication.socket)
     const dispatch = useDispatch()
 
     const [content, setContent] = useState('')
@@ -99,7 +99,7 @@ const StatusModal = () => {
             setContent(status.content)
             setImages(status.images)
         }
-    }, [status])
+    },[status])
 
     return (
         <div className="status_modal">

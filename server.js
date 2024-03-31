@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const SocketServer = require('./socketServer')
+const { ExpressPeerServer } = require('peer')
 
 const corsOptions = {
     origin: 'http://localhost:3000', // or your specific origin
@@ -30,6 +31,9 @@ const io = require('socket.io')(http, {
 io.on('connection', socket => {
     SocketServer(socket)
 })
+
+// Create peer server
+ExpressPeerServer(http, { path: '/' })
 
 // Routes
 app.use('/api', require('./routes/authRouter'))

@@ -9,10 +9,11 @@ import modal from "./modalReducer"
 import detailPost from "./detailPostReducer"
 import discover from "./discoverReducer"
 import suggestions from "./suggestionsReducer"
-import socketReducer from "./socketSlice"
+import communicationReducer from "./communicationSlice"
 import notify from "./notifyReducer"
 import message from "./messageReducer"
 import online from "./onlineReducer"
+import call from "./callReducer"
 
 export default combineReducers({
     auth,
@@ -26,7 +27,8 @@ export default combineReducers({
     discover,
     suggestions,
     notify,
-    socket: socketReducer,
+    communication: communicationReducer,
     message,
-    online
+    online,
+    call,
 })

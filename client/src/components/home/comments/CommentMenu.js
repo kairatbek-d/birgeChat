@@ -4,7 +4,7 @@ import { deleteComment } from '../../../redux/actions/commentAction'
 
 const CommentMenu = ({post, comment, setOnEdit}) => {
     const auth = useSelector(state => state.auth)
-    const socket = useSelector(state => state.socket.socket)
+    const socket = useSelector(state => state.communication.socket)
     const dispatch = useDispatch()
 
     const handleRemove = () => {

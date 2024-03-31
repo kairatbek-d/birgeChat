@@ -9,7 +9,7 @@ import { BASE_URL } from '../../../utils/config'
 
 const CardHeader = ({post}) => {
     const auth = useSelector(state => state.auth)
-    const socket = useSelector(state => state.socket.socket)
+    const socket = useSelector(state => state.communication.socket)
     const dispatch = useDispatch()
 
     const navigate = useNavigate()

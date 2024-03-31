@@ -7,7 +7,7 @@ const FollowBtn = ({user}) => {
 
     const auth = useSelector(state => state.auth)
     const profile = useSelector(state => state.profile)
-    const socket = useSelector(state => state.socket.socket)
+    const socket = useSelector(state => state.communication.socket)
     const dispatch = useDispatch()
 
     const [load, setLoad] = useState(false)

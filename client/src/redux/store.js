@@ -8,9 +8,9 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: {
     // Ignore these action types
-    ignoredActions: ['socket/setSocket'],
+    ignoredActions: ['communication/setSocket', 'communication/setPeer'],
     // Or you can ignore checking for specific paths in the state
-    ignoredPaths: ['socket.socket'],
+    ignoredPaths: ['communication.socket', 'communication.peer'],
   },}).concat(thunk),
   devTools: process.env.NODE_ENV !== 'production',
 });

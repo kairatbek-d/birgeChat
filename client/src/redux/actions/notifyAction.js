@@ -22,7 +22,7 @@ export const createNotify = ({msg, auth, socket}) => async (dispatch) => {
             }
         })
     } catch (err) {
-        dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+        dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response && err.response.data.msg}})
     }
 }
 
@@ -40,7 +40,7 @@ export const getNotifies = (token) => async (dispatch) => {
     try {
         const res = await getDataAPI('notifies', token)
         
-        dispatch({ type: NOTIFY_TYPES.GET_NOTIFIES, payload: res.data.notifies })
+        dispatch({ type: NOTIFY_TYPES.GET_NOTIFIES, payload: res.data })
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }

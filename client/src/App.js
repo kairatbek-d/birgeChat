@@ -15,15 +15,18 @@ import StatusModal from './components/StatusModal';
 import { getPosts } from './redux/actions/postAction';
 
 import SocketClient from './SocketClient';
-import { setSocket } from './redux/reducers/socketSlice';
+import { setPeer, setSocket } from './redux/reducers/communicationSlice';
 import io from "socket.io-client";
 import { getSuggestions } from './redux/actions/suggestionsAction';
 import { getNotifies } from './redux/actions/notifyAction';
+import CallModal from './components/message/CallModal';
+import Peer from 'peerjs'
 
 function App() {
     const auth = useSelector(state => state.auth)
     const status = useSelector(state => state.status)
     const modal = useSelector(state => state.modal)
+    const call = useSelector(state => state.call)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -47,15 +50,24 @@ function App() {
 
     useEffect(() => {
         if (!("Notification" in window)) {
-          alert("This browser does not support desktop notification");
+            alert("This browser does not support desktop notification");
         }
         else if (Notification.permission === "granted") {}
         else if (Notification.permission !== "denied") {
-          Notification.requestPermission().then(function (permission) {
-            if (permission === "granted") {}
-          });
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {}
+            });
         }
-      },[])
+    },[])
+
+    useEffect(() => {
+        const newPeer = new Peer(undefined, {
+            path: '/', secure: true
+        })
+
+        dispatch(setPeer(newPeer))
+        
+    },[dispatch])
 
     return (
         <Router>
@@ -67,6 +79,8 @@ function App() {
                     {auth.token && <Header />}
                     {status && <StatusModal />}
                     {auth.token && <SocketClient />}
+                    {call && <CallModal />}
+
                     <Routes>
                         <Route path="/" element={auth.token ? <Home /> : <Login />} />
                         <Route path="/register" element={<Register />} />
