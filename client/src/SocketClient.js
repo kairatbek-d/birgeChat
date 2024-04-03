@@ -5,6 +5,7 @@ import { GLOBALTYPES } from './redux/actions/globalTypes'
 import { NOTIFY_TYPES } from './redux/actions/notifyAction'
 
 import audiobell from './audio/got-it-done-613.mp3'
+import { MESS_TYPES } from './redux/actions/messageAction'
 
 const spawnNotification = (body, icon, url, title) => {
     let options = {
